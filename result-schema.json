@@ -1,0 +1,327 @@
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "title": "EnrichmentResult",
+    "definitions": {
+      "IndexedAdditionalRepresentation": {
+        "allOf": [
+          {
+            "$ref": "#/definitions/AdditionalRepresentation"
+          },
+          {
+            "type": "object",
+            "description": "AdditionalRepresentation with FieldIndex specified for matching ContentFields.",
+            "additionalProperties": false,
+            "properties": {
+              "FieldIndex": {
+                "type": "integer",
+                "description": "Gets or sets the index of the field to add the representation to.",
+                "format": "int32"
+              }
+            }
+          }
+        ]
+      },
+      "AdditionalRepresentation": {
+        "type": "object",
+        "description": "Specifies an additional ContentFieldRepresentation to add\nto a ContentField.",
+        "additionalProperties": false,
+        "properties": {
+          "FieldName": {
+            "type": [
+              "null",
+              "string"
+            ],
+            "description": "Gets or sets the name of the field to add the representation to."
+          },
+          "Representation": {
+            "description": "Gets or sets the additional representation to add.",
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/definitions/ContentFieldRepresentation"
+              }
+            ]
+          }
+        }
+      },
+      "ContentFieldRepresentation": {
+        "type": "object",
+        "description": "Alternative representations of the content of a field.",
+        "additionalProperties": false,
+        "properties": {
+          "Type": {
+            "type": [
+              "null",
+              "string"
+            ],
+            "description": "Gets or sets the representation type, typically one of the constants in ContentFieldRepresentationType."
+          },
+          "Content": {
+            "type": [
+              "null",
+              "string"
+            ],
+            "description": "Gets or sets the content value in this representation."
+          },
+          "LanguageCode": {
+            "type": [
+              "null",
+              "string"
+            ],
+            "description": "Gets or sets the language code for this representation, if different from the field language."
+          },
+          "Tags": {
+            "type": [
+              "array",
+              "null"
+            ],
+            "description": "Gets the set of tags related to the field.",
+            "items": {
+              "$ref": "#/definitions/ContentFieldTag"
+            }
+          },
+          "content_tags": {
+            "type": [
+              "array",
+              "null"
+            ],
+            "description": "Gets the set of tags related to the field.",
+            "items": {
+              "$ref": "#/definitions/ContentFieldTag"
+            }
+          },
+          "Metadata": {
+            "type": [
+              "null",
+              "object"
+            ],
+            "description": "Gets additional metadata about the field.",
+            "additionalProperties": {}
+          },
+          "Index": {
+            "type": [
+              "integer",
+              "null"
+            ],
+            "description": "Gets or sets the representation index to correlate in messages, not normally stored on the item.",
+            "format": "int32"
+          }
+        }
+      },
+      "ContentFieldTag": {
+        "type": "object",
+        "description": "Details of a message tag on a content field.",
+        "additionalProperties": false,
+        "properties": {
+          "Type": {
+            "type": [
+              "null",
+              "string"
+            ],
+            "description": "Gets or sets the type of tag."
+          },
+          "Id": {
+            "type": [
+              "null",
+              "string"
+            ],
+            "description": "Gets or sets the identifier associated with the tag."
+          },
+          "Name": {
+            "type": [
+              "null",
+              "string"
+            ],
+            "description": "Gets or sets the name associated with the tag."
+          },
+          "ProfileId": {
+            "type": [
+              "null",
+              "string"
+            ],
+            "description": "Gets or sets the profile identifier.",
+            "x-deprecated": true,
+            "x-deprecatedMessage": "Renamed Id"
+          },
+          "ProfileName": {
+            "type": [
+              "null",
+              "string"
+            ],
+            "description": "Gets or sets the name of the profile.",
+            "x-deprecated": true,
+            "x-deprecatedMessage": "Renamed Name"
+          },
+          "Classification": {
+            "type": [
+              "null",
+              "string"
+            ],
+            "description": "Gets or sets the classification associated to the tag."
+          },
+          "Score": {
+            "type": [
+              "null",
+              "number"
+            ],
+            "description": "Gets or sets the score related to the tag.",
+            "format": "double"
+          },
+          "Offset": {
+            "type": "integer",
+            "description": "Gets or sets the offset in the original text.",
+            "format": "int32"
+          },
+          "Length": {
+            "type": "integer",
+            "description": "Gets or sets the length of the tag in the original text.",
+            "format": "int32"
+          }
+        }
+      },
+      "ScorePathValue": {
+        "type": "object",
+        "description": "Represents a score path and a value for the leaf of the path.",
+        "additionalProperties": false,
+        "properties": {
+          "Path": {
+            "type": [
+              "array",
+              "null"
+            ],
+            "description": "Gets a list of strings comprising the score path.",
+            "items": {
+              "type": "string"
+            }
+          },
+          "Value": {
+            "type": "number",
+            "description": "Gets or sets the value of the score for the leaf of the path.",
+            "format": "double"
+          }
+        }
+      },
+      "AdditionalContentFieldTags": {
+        "type": "object",
+        "description": "Content field tags to apply to a content field.",
+        "additionalProperties": false,
+        "properties": {
+          "FieldIndex": {
+            "type": "integer",
+            "description": "Gets or sets the index of the field to apply the tags to.",
+            "format": "int32"
+          },
+          "FieldName": {
+            "type": [
+              "null",
+              "string"
+            ],
+            "description": "Gets or sets the name of the field to apply the tags to."
+          },
+          "Tags": {
+            "type": [
+              "array",
+              "null"
+            ],
+            "description": "Gets the list of Tags to apply to the specified field.",
+            "items": {
+              "$ref": "#/definitions/ContentFieldTag"
+            }
+          }
+        }
+      },
+      "MessageBase": {
+        "type": "object",
+        "description": "Abstract base class for messages.",
+        "x-abstract": true,
+        "additionalProperties": false,
+        "properties": {
+          "MessageType": {
+            "type": [
+              "null",
+              "string"
+            ],
+            "description": "Gets the type of the message."
+          }
+        }
+      }
+    },
+    "allOf": [
+      {
+        "$ref": "#/definitions/MessageBase"
+      },
+      {
+        "type": "object",
+        "description": "Result message for a generic enrichment.",
+        "additionalProperties": false,
+        "properties": {
+          "EnrichmentId": {
+            "type": "string",
+            "description": "Gets or sets the Id of the enrichment.",
+            "format": "guid"
+          },
+          "EnrichmentProvider": {
+            "type": [
+              "null",
+              "string"
+            ],
+            "description": "Gets or sets the enrichment provider."
+          },
+          "LineHash": {
+            "type": [
+              "null",
+              "string"
+            ],
+            "description": "Gets or sets the linehash of the item that the result is for."
+          },
+          "Error": {
+            "type": [
+              "null",
+              "string"
+            ],
+            "description": "Gets or sets the error result for the enrichment."
+          },
+          "Metadata": {
+            "type": [
+              "null",
+              "object"
+            ],
+            "description": "Gets the metadata for the enrichment.",
+            "additionalProperties": {}
+          },
+          "Representations": {
+            "type": [
+              "array",
+              "null"
+            ],
+            "description": "Gets the list of content field representations to apply to the item's `Fields`.",
+            "items": {
+              "$ref": "#/definitions/IndexedAdditionalRepresentation"
+            }
+          },
+          "Scores": {
+            "type": [
+              "array",
+              "null"
+            ],
+            "description": "Gets the set of scores returned from the enrichment.",
+            "items": {
+              "$ref": "#/definitions/ScorePathValue"
+            }
+          },
+          "Tags": {
+            "type": [
+              "array",
+              "null"
+            ],
+            "description": "Gets the list of ContentFieldTag to apply to matching ContentField on the item.",
+            "items": {
+              "$ref": "#/definitions/AdditionalContentFieldTags"
+            }
+          }
+        }
+      }
+    ]
+  }

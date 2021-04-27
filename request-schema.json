@@ -1,0 +1,355 @@
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "title": "Message",
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+        "Linehash": {
+            "type": [
+                "null",
+                "string"
+            ]
+        },
+        "EnrichmentId": {
+            "type": [
+                "null",
+                "string"
+            ]
+        },
+        "MessageType": {
+            "type": [
+                "null",
+                "string"
+            ]
+        },
+        "Fields": {
+            "type": [
+                "array",
+                "null"
+            ],
+            "items": {
+                "$ref": "#/definitions/ContentField"
+            }
+        }
+    },
+    "definitions": {
+        "ContentField": {
+            "type": "object",
+            "description": "Details of a UGC content field on an item.",
+            "additionalProperties": false,
+            "properties": {
+                "fieldname": {
+                    "type": [
+                        "null",
+                        "string"
+                    ],
+                    "description": "Gets or sets the name of the field."
+                },
+                "content": {
+                    "type": [
+                        "null",
+                        "string"
+                    ],
+                    "description": "Gets or sets the text content of the field."
+                },
+                "Filtered": {
+                    "type": [
+                        "null",
+                        "string"
+                    ],
+                    "description": "Gets or sets the filtered text content of the field."
+                },
+                "policy": {
+                    "type": [
+                        "null",
+                        "string"
+                    ],
+                    "description": "Gets or sets the RMF policy applied to the field."
+                },
+                "index": {
+                    "type": "integer",
+                    "description": "Gets or sets the index of the field in the item.",
+                    "format": "int32"
+                },
+                "result": {
+                    "description": "Gets or sets the score applied to the content by the RMF.",
+                    "oneOf": [
+                        {
+                            "$ref": "#/definitions/RmfScore"
+                        }
+                    ]
+                },
+                "profile": {
+                    "type": "boolean",
+                    "description": "Gets or sets a value indicating whether this ContentField should be included in the primary content."
+                },
+                "type": {
+                    "type": [
+                        "null",
+                        "string"
+                    ],
+                    "description": "Gets or sets the type of the field."
+                },
+                "uri": {
+                    "type": [
+                        "null",
+                        "string"
+                    ],
+                    "description": "Gets or sets the URI address for the content.",
+                    "format": "uri"
+                },
+                "content_tags": {
+                    "type": [
+                        "array",
+                        "null"
+                    ],
+                    "description": "Gets the set of tags related to the field.",
+                    "items": {
+                        "$ref": "#/definitions/ContentFieldTag"
+                    }
+                },
+                "binarytype": {
+                    "type": [
+                        "null",
+                        "string"
+                    ],
+                    "description": "Gets or sets the binary type for the content."
+                },
+                "mimetype": {
+                    "type": [
+                        "null",
+                        "string"
+                    ],
+                    "description": "Gets or sets the associated MIME type, if known."
+                },
+                "language": {
+                    "description": "Gets or sets the details of the language the field is in.",
+                    "oneOf": [
+                        {
+                            "type": "null"
+                        },
+                        {
+                            "$ref": "#/definitions/ContentLanguageInfo"
+                        }
+                    ]
+                },
+                "representations": {
+                    "type": [
+                        "array",
+                        "null"
+                    ],
+                    "description": "Gets the representations of the field.",
+                    "items": {
+                        "$ref": "#/definitions/ContentFieldRepresentation"
+                    }
+                },
+                "IsMetadata": {
+                    "type": "boolean",
+                    "description": "Gets or sets a value indicating whether the field data is for metadata values."
+                }
+            }
+        },
+        "RmfScore": {
+            "type": "integer",
+            "description": "Score values returned from the RMF.",
+            "x-enumNames": [
+                "None",
+                "WhitelistUnmatched",
+                "Blacklisted"
+            ],
+            "enum": [
+                0,
+                1,
+                2
+            ]
+        },
+        "ContentFieldTag": {
+            "type": "object",
+            "description": "Details of a message tag on a content field.",
+            "additionalProperties": false,
+            "properties": {
+                "Type": {
+                    "type": [
+                        "null",
+                        "string"
+                    ],
+                    "description": "Gets or sets the type of tag."
+                },
+                "Id": {
+                    "type": [
+                        "null",
+                        "string"
+                    ],
+                    "description": "Gets or sets the identifier associated with the tag."
+                },
+                "Name": {
+                    "type": [
+                        "null",
+                        "string"
+                    ],
+                    "description": "Gets or sets the name associated with the tag."
+                },
+                "ProfileId": {
+                    "type": [
+                        "null",
+                        "string"
+                    ],
+                    "description": "Gets or sets the profile identifier.",
+                    "x-deprecated": true,
+                    "x-deprecatedMessage": "Renamed Id"
+                },
+                "ProfileName": {
+                    "type": [
+                        "null",
+                        "string"
+                    ],
+                    "description": "Gets or sets the name of the profile.",
+                    "x-deprecated": true,
+                    "x-deprecatedMessage": "Renamed Name"
+                },
+                "Classification": {
+                    "type": [
+                        "null",
+                        "string"
+                    ],
+                    "description": "Gets or sets the classification associated to the tag."
+                },
+                "Score": {
+                    "type": [
+                        "null",
+                        "number"
+                    ],
+                    "description": "Gets or sets the score related to the tag.",
+                    "format": "double"
+                },
+                "Offset": {
+                    "type": "integer",
+                    "description": "Gets or sets the offset in the original text.",
+                    "format": "int32"
+                },
+                "Length": {
+                    "type": "integer",
+                    "description": "Gets or sets the length of the tag in the original text.",
+                    "format": "int32"
+                }
+            }
+        },
+        "ContentLanguageInfo": {
+            "allOf": [
+                {
+                    "$ref": "#/definitions/DetectedLanguageInfo"
+                },
+                {
+                    "type": "object",
+                    "description": "Details of the language the content of a UGC item has been detected to be.",
+                    "additionalProperties": false,
+                    "properties": {
+                        "Supported": {
+                            "type": "boolean",
+                            "description": "Gets or sets a value indicating whether this the language is supported for the item's page."
+                        }
+                    }
+                }
+            ]
+        },
+        "DetectedLanguageInfo": {
+            "type": "object",
+            "description": "Details of a language as detected.",
+            "additionalProperties": false,
+            "properties": {
+                "IsEnglish": {
+                    "type": "boolean",
+                    "description": "Gets or sets a value indicating whether the content is in English."
+                },
+                "DetectedLanguage": {
+                    "type": [
+                        "null",
+                        "string"
+                    ],
+                    "description": "Gets or sets the detected language code.",
+                    "x-deprecated": true,
+                    "x-deprecatedMessage": "Renamed LanguageCode"
+                },
+                "LanguageCode": {
+                    "type": [
+                        "null",
+                        "string"
+                    ],
+                    "description": "Gets or sets language that was detected in ISO 639-1\nformat. (https://en.wikipedia.org/wiki/ISO_639-1), if\nknown."
+                },
+                "Confidence": {
+                    "type": [
+                        "null",
+                        "number"
+                    ],
+                    "description": "Gets or sets the confidence returned from the detection, a probability between 0.0 and 1.0.",
+                    "format": "double"
+                }
+            }
+        },
+        "ContentFieldRepresentation": {
+            "type": "object",
+            "description": "Alternative representations of the content of a field.",
+            "additionalProperties": false,
+            "properties": {
+                "Type": {
+                    "type": [
+                        "null",
+                        "string"
+                    ],
+                    "description": "Gets or sets the representation type, typically one of the constants in ContentFieldRepresentationType."
+                },
+                "Content": {
+                    "type": [
+                        "null",
+                        "string"
+                    ],
+                    "description": "Gets or sets the content value in this representation."
+                },
+                "LanguageCode": {
+                    "type": [
+                        "null",
+                        "string"
+                    ],
+                    "description": "Gets or sets the language code for this representation, if different from the field language."
+                },
+                "Tags": {
+                    "type": [
+                        "array",
+                        "null"
+                    ],
+                    "description": "Gets the set of tags related to the field.",
+                    "items": {
+                        "$ref": "#/definitions/ContentFieldTag"
+                    }
+                },
+                "content_tags": {
+                    "type": [
+                        "array",
+                        "null"
+                    ],
+                    "description": "Gets the set of tags related to the field.",
+                    "items": {
+                        "$ref": "#/definitions/ContentFieldTag"
+                    }
+                },
+                "Metadata": {
+                    "type": [
+                        "null",
+                        "object"
+                    ],
+                    "description": "Gets additional metadata about the field.",
+                    "additionalProperties": {}
+                },
+                "Index": {
+                    "type": [
+                        "integer",
+                        "null"
+                    ],
+                    "description": "Gets or sets the representation index to correlate in messages, not normally stored on the item.",
+                    "format": "int32"
+                }
+            }
+        }
+    }
+}
